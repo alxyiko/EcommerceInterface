@@ -1,0 +1,46 @@
+/* Background styling */
+.login-container {
+   height: 100vh;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-image: url('/assets/bg.jpg'); /* Updated image path */
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+}
+
+/* Login form styling */
+.login-form {
+   background-color: rgba(0, 0, 0, 0.4); /* Transparent black background */
+   padding: 30px;
+   border-radius: 10px;
+   color: #f5f5f5; /* Light text color */
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+   width: 100%;
+   max-width: 500px;
+}
+
+/* Form row styling */
+.form-row {
+   display: flex;
+   justify-content: space-between;
+   gap: 10px;
+}
+
+/* Form title styling */
+.login-form h2 {
+   font-size: 1.6rem; /* Updated font size */
+   font-weight: bold;
+   color: #f5f5f5;
+   text-align: left;
+   margin-bottom: 1.5rem;
+}
+
+.form-label {
+   color: #f5f5f5; /* Light text color for labels */
+}
+
+button {
+   font-weight: bold;
+}

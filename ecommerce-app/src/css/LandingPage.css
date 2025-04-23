@@ -1,0 +1,77 @@
+.landing-container {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100vh;
+   background-image: url('/assets/bg.jpg'); 
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+   color: #fff;
+   font-family: 'Arial', sans-serif;
+}
+
+.landing-card {
+   background-color: rgba(0, 0, 0, 0.5); 
+   border-radius: 12px;
+   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+   padding: 3rem; 
+   max-width: 400px;
+   width: 100%;
+   text-align: center;
+}
+
+.landing-card .card-title {
+   font-size: 1.4rem;
+   font-weight: bold;
+   color: #333;
+}
+
+.landing-card .btn-primary {
+   background-color: transparent;
+   border: 2px solid #007bff;
+   font-size: 1.2rem;
+   padding: 0.75rem;
+   color: #007bff;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+   transition: all 0.3s ease;
+}
+
+.landing-card .btn-primary:hover {
+   background-color: #007bff;
+   color: #fff;
+   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.landing-card .btn-success {
+   background-color: transparent;
+   border: 2px solid #28a745;
+   font-size: 1.2rem;
+   padding: 0.75rem;
+   color: #28a745;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+   transition: all 0.3s ease;
+}
+
+.landing-card .btn-success:hover {
+   background-color: #28a745;
+   color: #fff;
+   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+@media (max-width: 576px) {
+   .landing-card {
+     padding: 1.5rem;
+   }
+
+   .landing-card .card-title {
+     font-size: 1.5rem;
+   }
+
+   .landing-card .btn-primary,
+   .landing-card .btn-success {
+     font-size: 1rem;
+     padding: 0.9rem;
+   }
+}

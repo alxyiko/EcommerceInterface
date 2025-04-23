@@ -1,0 +1,29 @@
+/* Navbar Styling */
+.navbar {
+   background-color: #000; /* Pure black navbar */
+   border-bottom: 2px solid #444; /* Subtle border */
+   padding: 10px 20px; /* Add padding for better spacing */
+ }
+ 
+ .navbar-brand {
+   color: #b10b0b !important; /* Dark red title */
+   font-weight: bold;
+   font-size: 1.8rem;
+   margin-left: 100px; /* Move slightly to the center but closer to the left */
+ }
+ 
+ .navbar-brand:hover {
+   color: #b10b0b !important; /* Slightly lighter red on hover */
+ }
+ 
+ .nav-link {
+   color: #ffffff !important; /* Pure white text for routes */
+   font-weight: bold; /* Make text bold */
+   margin: 0 10px; /* Add spacing between links */
+   text-decoration: none; /* Remove underline */
+   transition: color 0.3s ease;
+ }
+ 
+ .nav-link:hover {
+   color: #ff4500 !important; /* Orange hover effect */
+ }
