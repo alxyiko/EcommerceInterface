@@ -116,6 +116,9 @@ const MyProfile = () => {
             <Button variant="secondary" onClick={handleGoBack} title="Go Back">
               <FaArrowLeft />
             </Button>
+            <Button variant="outline-light" className="ms-3" onClick={handleLogout}>
+                          Logout
+                        </Button>
           </div>
         </Form>
       </Container>

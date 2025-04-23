@@ -37,7 +37,10 @@
    border: none;
  }
  
- .my-profile-container .btn-secondary {
-   background-color: #6c757d;
-   border: none;
- }
+.my-profile-container .btn-secondary {
+  background-color: #6c757d;
+  border: none;
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}

@@ -31,9 +31,6 @@ const NavbarComponent = () => {
             <Nav.Link as={Link} to="/profile" className="nav-link">
               My Profile
             </Nav.Link> {/* Added My Profile link */}
-            <Button variant="outline-light" className="ms-3" onClick={handleLogout}>
-              Logout
-            </Button>
           </Nav>
         </Navbar.Collapse>
       </Container>
