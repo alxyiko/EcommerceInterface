@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../NavBarComponents/ProductCard';
 import NavbarComponent from '../NavBarComponents/NavbarComponent';
-import '../css/Home.css'; 
+import '../css/Home.css'; // Add CSS for the snackbar
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOption, setSortOption] = useState('default'); // State for sorting
+  const [snackbarMessage, setSnackbarMessage] = useState(''); // State for snackbar message
+  const [showSnackbar, setShowSnackbar] = useState(false); // State for snackbar visibility
 
   useEffect(() => {
     const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
@@ -45,6 +47,12 @@ const Home = () => {
     )
   );
 
+  const handleAddToCart = (productName) => {
+    setSnackbarMessage(`${productName} has been added to the cart!`);
+    setShowSnackbar(true);
+    setTimeout(() => setShowSnackbar(false), 3000); // Hide the snackbar after 3 seconds
+  };
+
   return (
     <>
       <NavbarComponent />
@@ -77,11 +85,21 @@ const Home = () => {
               name={product.name}
               price={product.price}
               image={product.image}
-              onDelete={handleDeleteProduct} // Pass the delete handler
+              seller={product.seller}
+              description={product.description}
+              onDelete={handleDeleteProduct}
+              onAddToCart={handleAddToCart} // Pass the add-to-cart handler
             />
           ))}
         </div>
       </div>
+
+      {/* Snackbar Notification */}
+      {showSnackbar && (
+        <div className="snackbar">
+          {snackbarMessage}
+        </div>
+      )}
     </>
   );
 };

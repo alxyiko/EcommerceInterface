@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Image } from 'react-bootstrap';
 import NavbarComponent from '../NavBarComponents/NavbarComponent';
-import '../css/AddProduct.css'; 
+import '../css/AddProduct.css';
 
 const AddProduct = () => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
-  const [description, setDescription] = useState(''); // State for product description
+  const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [sellerName, setSellerName] = useState(''); // New state for seller's name
 
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -23,12 +24,12 @@ const AddProduct = () => {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
-      setImagePreview(URL.createObjectURL(file)); 
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
   const handleAdd = async () => {
-    if (!name || !price || !description || !image) {
+    if (!name || !price || !description || !image || !sellerName) {
       alert('Please fill in all fields!');
       return;
     }
@@ -44,8 +45,9 @@ const AddProduct = () => {
         id: existingProducts.length + 1,
         name,
         price,
-        description, // Include description in the product object
+        description,
         image: base64Image,
+        seller: sellerName, // Include seller's name
       };
 
       localStorage.setItem('products', JSON.stringify([...existingProducts, newProduct]));
@@ -53,9 +55,10 @@ const AddProduct = () => {
       alert('Product added successfully!');
       setName('');
       setPrice('');
-      setDescription(''); // Reset description field
+      setDescription('');
       setImage(null);
       setImagePreview(null);
+      setSellerName(''); // Reset seller's name field
     } catch (error) {
       console.error('Error converting image to Base64:', error);
     }
@@ -95,6 +98,16 @@ const AddProduct = () => {
               placeholder="Enter product description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label className="form-label-black">Seller desired alias/username</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter your name"
+              value={sellerName}
+              onChange={(e) => setSellerName(e.target.value)}
             />
           </Form.Group>
 

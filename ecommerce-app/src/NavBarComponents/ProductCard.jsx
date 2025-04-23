@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { Card, Button, Form, Modal } from 'react-bootstrap';
 
-const ProductCard = ({ id, name, price, image, onDelete }) => {
+const ProductCard = ({ id, name, price, image, seller, description, onDelete, onAddToCart }) => {
   const [quantity, setQuantity] = useState(1);
   const [showModal, setShowModal] = useState(false);
 
   const handleAddToCart = () => {
     const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-    const newItem = { id, name, price, quantity, image };
+    const newItem = { id, name, price, quantity, image, seller };
     localStorage.setItem('cart', JSON.stringify([...cartItems, newItem]));
-    alert(`${name} has been added to the cart!`);
+    onAddToCart(name); // Notify the Home component
   };
 
   const handleDelete = () => {
-    onDelete(id); // Call the delete handler passed from Home
+    onDelete(id);
     setShowModal(false);
   };
 
@@ -33,6 +33,7 @@ const ProductCard = ({ id, name, price, image, onDelete }) => {
           <Card.Title style={{ textAlign: 'left', fontWeight: 'bold' }}>{name}</Card.Title>
           <Card.Text style={{ textAlign: 'left' }}>
             <strong>Price:</strong> ₱{price} <br />
+            <strong>Seller:</strong> {seller} <br />
             <strong>Product ID:</strong> {id}
           </Card.Text>
         </Card.Body>
@@ -53,7 +54,9 @@ const ProductCard = ({ id, name, price, image, onDelete }) => {
           <div style={{ textAlign: 'left', marginTop: '20px' }}>
             <p>
               <strong>Price:</strong> ₱{price} <br />
-              <strong>Product ID:</strong> {id}
+              <strong>Seller:</strong> {seller} <br />
+              <strong>Product ID:</strong> {id} <br />
+              <strong>Description:</strong> {description}
             </p>
             <Form.Group className="mb-3">
               <Form.Label>Quantity</Form.Label>
