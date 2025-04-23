@@ -28,6 +28,9 @@ const NavbarComponent = () => {
             <Nav.Link as={Link} to="/add-product" className="nav-link">
               Add Product
             </Nav.Link>
+            <Nav.Link as={Link} to="/profile" className="nav-link">
+              My Profile
+            </Nav.Link> {/* Added My Profile link */}
             <Button variant="outline-light" className="ms-3" onClick={handleLogout}>
               Logout
             </Button>
