@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Card, Button, Form, Modal } from 'react-bootstrap';
 
-const ProductCard = ({ id, name, category, price, image, onDelete }) => {
+const ProductCard = ({ id, name, price, image, onDelete }) => {
   const [quantity, setQuantity] = useState(1);
   const [showModal, setShowModal] = useState(false);
 
   const handleAddToCart = () => {
     const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-    const newItem = { id, name, category, price, quantity, image };
+    const newItem = { id, name, price, quantity, image };
     localStorage.setItem('cart', JSON.stringify([...cartItems, newItem]));
     alert(`${name} has been added to the cart!`);
   };
@@ -32,8 +32,7 @@ const ProductCard = ({ id, name, category, price, image, onDelete }) => {
         <Card.Body>
           <Card.Title style={{ textAlign: 'left', fontWeight: 'bold' }}>{name}</Card.Title>
           <Card.Text style={{ textAlign: 'left' }}>
-            <strong>Category:</strong> {category} <br />
-            <strong>Price:</strong> ${price} <br />
+            <strong>Price:</strong> ₱{price} <br />
             <strong>Product ID:</strong> {id}
           </Card.Text>
         </Card.Body>
@@ -53,8 +52,7 @@ const ProductCard = ({ id, name, category, price, image, onDelete }) => {
           </div>
           <div style={{ textAlign: 'left', marginTop: '20px' }}>
             <p>
-              <strong>Category:</strong> {category} <br />
-              <strong>Price:</strong> ${price} <br />
+              <strong>Price:</strong> ₱{price} <br />
               <strong>Product ID:</strong> {id}
             </p>
             <Form.Group className="mb-3">

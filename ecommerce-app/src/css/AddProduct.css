@@ -1,19 +1,19 @@
-.add-product-container {
-  max-width: 500px;
-  background-color: rgba(0, 0, 0, 0.05);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
- }
- 
- .form-label-black {
-  color: #000;
-  font-weight: bold;
- }
- 
- .text-center img {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 5px;
-  max-height: 200px;
- }
+  .add-product-container {
+    max-width: 500px;
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-label-black {
+    color: #000;
+    font-weight: bold;
+  }
+  
+  .text-center img {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+    max-height: 200px;
+  }

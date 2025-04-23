@@ -6,10 +6,10 @@ import '../css/AddProduct.css';
 const AddProduct = () => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
+  const [description, setDescription] = useState(''); // State for product description
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
-  
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -19,7 +19,6 @@ const AddProduct = () => {
     });
   };
 
-  
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -28,9 +27,8 @@ const AddProduct = () => {
     }
   };
 
-  
   const handleAdd = async () => {
-    if (!name || !price || !image) {
+    if (!name || !price || !description || !image) {
       alert('Please fill in all fields!');
       return;
     }
@@ -46,6 +44,7 @@ const AddProduct = () => {
         id: existingProducts.length + 1,
         name,
         price,
+        description, // Include description in the product object
         image: base64Image,
       };
 
@@ -54,6 +53,7 @@ const AddProduct = () => {
       alert('Product added successfully!');
       setName('');
       setPrice('');
+      setDescription(''); // Reset description field
       setImage(null);
       setImagePreview(null);
     } catch (error) {
@@ -67,7 +67,6 @@ const AddProduct = () => {
       <Container className="mt-5 add-product-container">
         <h2 className="text-center mb-4">Add Product</h2>
         <Form>
-          
           <Form.Group className="mb-3">
             <Form.Label className="form-label-black">Product Name</Form.Label>
             <Form.Control
@@ -78,7 +77,6 @@ const AddProduct = () => {
             />
           </Form.Group>
 
-          
           <Form.Group className="mb-3">
             <Form.Label className="form-label-black">Price</Form.Label>
             <Form.Control
@@ -89,13 +87,22 @@ const AddProduct = () => {
             />
           </Form.Group>
 
-          
+          <Form.Group className="mb-3">
+            <Form.Label className="form-label-black">Product Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              placeholder="Enter product description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label className="form-label-black">Image</Form.Label>
             <Form.Control type="file" onChange={handleImageChange} />
           </Form.Group>
 
-        
           {imagePreview && (
             <div className="text-center mb-3">
               <Image
@@ -107,7 +114,6 @@ const AddProduct = () => {
             </div>
           )}
 
-          
           <div className="d-flex justify-content-start">
             <Button variant="primary" onClick={handleAdd}>
               Add Product
