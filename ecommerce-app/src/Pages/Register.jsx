@@ -4,206 +4,239 @@ import { useNavigate } from 'react-router-dom';
 import '../css/Register.css';
 
 const Register = () => {
-  const [fullName, setFullName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [middleName, setMiddleName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [address, setAddress] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
   const [emailAddress, setEmailAddress] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
+  const [street, setStreet] = useState('');
+  const [city, setCity] = useState('');
+  const [province, setProvince] = useState('');
+  const [postalCode, setPostalCode] = useState('');
   const [password, setPassword] = useState('');
-  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  const provinces = [
+    'Metro Manila',
+    'Cebu',
+    'Davao del Sur',
+    'Benguet',
+    'Laguna',
+    'Batangas',
+    'Pampanga',
+    'Bulacan',
+    'Rizal',
+    'Cavite',
+  ];
 
-  const isValidPassword = (password) => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-    return passwordRegex.test(password);
+  const cities = {
+    'Metro Manila': ['Manila', 'Quezon City', 'Makati', 'Pasig', 'Taguig'],
+    Cebu: ['Cebu City', 'Mandaue', 'Lapu-Lapu'],
+    'Davao del Sur': ['Davao City', 'Digos'],
+    Benguet: ['Baguio'],
+    Laguna: ['Calamba', 'San Pablo', 'Santa Rosa'],
+    Batangas: ['Batangas City', 'Lipa', 'Tanauan'],
+    Pampanga: ['Angeles', 'San Fernando'],
+    Bulacan: ['Malolos', 'Meycauayan', 'San Jose del Monte'],
+    Rizal: ['Antipolo', 'Cainta', 'Taytay'],
+    Cavite: ['Dasmariñas', 'Bacoor', 'Imus'],
   };
 
   const handleRegister = () => {
-    if (!fullName || !address || !contactNumber || !emailAddress || !password) {
+    if (
+      !firstName ||
+      !middleName ||
+      !lastName ||
+      !emailAddress ||
+      !contactNumber ||
+      !street ||
+      !province ||
+      !city ||
+      !postalCode ||
+      !password ||
+      !confirmPassword
+    ) {
       setError('All fields are required!');
       return;
     }
 
-    if (!isValidEmail(emailAddress)) {
-      setError('Invalid email format! Please include a valid email like "example@gmail.com".');
+    if (password !== confirmPassword) {
+      setError('Passwords do not match!');
       return;
     }
 
-    if (!isValidPassword(password)) {
-      setError('Password must contain at least one uppercase letter, one lowercase letter, and one number.');
+    // Retrieve existing users from localStorage
+    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+
+    // Check if the email already exists
+    const isDuplicate = existingUsers.some(user => user.username === emailAddress);
+    if (isDuplicate) {
+      setError('An account with this email already exists!');
       return;
     }
 
-    try {
-      // Retrieve existing users from localStorage
-      const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+    // Save user credentials to localStorage
+    const newUser = {
+      username: emailAddress,
+      password: password,
+    };
 
-      // Check if the email address already exists
-      const userExists = existingUsers.some((user) => user.emailAddress === emailAddress);
-      if (userExists) {
-        setError('Email address already exists! Please use a different email.');
-        return;
-      }
+    localStorage.setItem('users', JSON.stringify([...existingUsers, newUser]));
 
-      // Add the new user to the list
-      const newUser = { fullName, address, contactNumber, emailAddress, password };
-      existingUsers.push(newUser);
-
-      // Save the updated users list to localStorage
-      localStorage.setItem('users', JSON.stringify(existingUsers));
-
-      setError('');
-      setShowSnackbar(true);
-      setTimeout(() => {
-        setShowSnackbar(false);
-        navigate('/login'); // Redirect to login
-      }, 2000);
-    } catch (err) {
-      setError('Error saving user data!');
-    }
-  };
-
-  const handleLoginRedirect = () => {
-    navigate('/login');
+    setError('');
+    alert('Registration successful!');
+    navigate('/login'); // Redirect to login page
   };
 
   return (
     <div className="register-container">
       <Container className="register-form">
-        <h2 className="form-title mb-4">Sign up</h2>
+        <h2 className="form-title mb-4">Create New Account</h2>
+        <p className="form-subtitle"></p>
         <Form>
-          <Row className="mb-3">
+          <Row>
+            {/* Left Column */}
             <Col md={6}>
-              <Form.Group>
-                <Form.Label>Full Name</Form.Label>
+              <Form.Group className="mb-3">
+                <Form.Label>First Name</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="John Doe"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Enter your first name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                 />
               </Form.Group>
-                <Col md={6}>
-                <Form.Group>
-                  <Form.Label>First Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Isabel"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group>
-                  <Form.Label>Middle Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Maria"
-                    value={middleName}
-                    onChange={(e) => setMiddleName(e.target.value)}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group>
-                  <Form.Label>Last Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Rote"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </Form.Group>
-              </Col>
-            </Col>
-            <Col md={6}>
-              <Form.Group>
-                <Form.Label>Address</Form.Label>
+              <Form.Group className="mb-3">
+                <Form.Label>Middle Name</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="123 Main St"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="Enter your middle name"
+                  value={middleName}
+                  onChange={(e) => setMiddleName(e.target.value)}
                 />
               </Form.Group>
-            </Col>
-          </Row>
-          <Row className="mb-3">
-            <Col md={6}>
-              <Form.Group>
-                <Form.Label>Contact Number</Form.Label>
+              <Form.Group className="mb-3">
+                <Form.Label>Last Name</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="123-456-7890"
+                  placeholder="Enter your last name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter your email"
+                  value={emailAddress}
+                  onChange={(e) => setEmailAddress(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Phone Number</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your phone number"
                   value={contactNumber}
                   onChange={(e) => setContactNumber(e.target.value)}
                 />
               </Form.Group>
             </Col>
+
+            {/* Right Column */}
             <Col md={6}>
-              <Form.Group>
-                <Form.Label>Email Address</Form.Label>
+              <Form.Group className="mb-3">
+                <Form.Label>Street</Form.Label>
                 <Form.Control
-                  type="email"
-                  placeholder="example@gmail.com"
-                  value={emailAddress}
-                  onChange={(e) => setEmailAddress(e.target.value)}
-                  isInvalid={!!error && (!emailAddress || !isValidEmail(emailAddress))}
+                  type="text"
+                  placeholder="Enter your street address"
+                  value={street}
+                  onChange={(e) => setStreet(e.target.value)}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {error}
-                </Form.Control.Feedback>
               </Form.Group>
-            </Col>
-          </Row>
-          <Row className="mb-3">
-            <Col md={12}>
-              <Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Province</Form.Label>
+                <Form.Control
+                  as="select"
+                  value={province}
+                  onChange={(e) => {
+                    setProvince(e.target.value);
+                    setCity('');
+                  }}
+                >
+                  <option value="">Select Province</option>
+                  {provinces.map((province, index) => (
+                    <option key={index} value={province}>
+                      {province}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>City</Form.Label>
+                <Form.Control
+                  as="select"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  disabled={!province}
+                >
+                  <option value="">Select your province first!</option>
+                  {province &&
+                    cities[province]?.map((city, index) => (
+                      <option key={index} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                </Form.Control>
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Postal Code</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your postal code"
+                  value={postalCode}
+                  onChange={(e) => setPostalCode(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                   type="password"
-                  placeholder="Enter your password"
+                  placeholder="Create password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  isInvalid={!!error && (!password || !isValidPassword(password))}
                 />
-                <Form.Control.Feedback type="invalid">
-                  Password must contain at least one uppercase letter, one lowercase letter, and one number.
-                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Confirm your password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
               </Form.Group>
             </Col>
           </Row>
 
-          <div className="d-flex justify-content-end gap-2">
-            <Button variant="success" onClick={handleRegister}>
-              Register
+          {error && (
+            <Alert variant="danger" className="mt-3">
+              {error}
+            </Alert>
+          )}
+
+          <div className="d-flex justify-content-between mt-4">
+            <Button variant="link" onClick={() => navigate('/login')}>
+              Go Back to Login
             </Button>
-            <Button variant="secondary" onClick={handleLoginRedirect}>
-              Login
+            <Button variant="primary" onClick={handleRegister}>
+              Register
             </Button>
           </div>
         </Form>
-
-        {error && (
-          <Alert variant="danger" className="mt-3">
-            {error}
-          </Alert>
-        )}
-
-        {showSnackbar && (
-          <Alert variant="success" className="mt-3">
-            Registration successful! Redirecting to Login...
-          </Alert>
-        )}
       </Container>
     </div>
   );
