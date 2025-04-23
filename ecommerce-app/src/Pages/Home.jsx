@@ -5,6 +5,8 @@ import '../css/Home.css';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortOption, setSortOption] = useState('default'); // State for sorting
 
   useEffect(() => {
     const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
@@ -17,17 +19,62 @@ const Home = () => {
     localStorage.setItem('products', JSON.stringify(updatedProducts));
   };
 
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value);
+  };
+
+  const sortProducts = (products) => {
+    if (sortOption === 'priceLowToHigh') {
+      return [...products].sort((a, b) => a.price - b.price);
+    }
+    if (sortOption === 'priceHighToLow') {
+      return [...products].sort((a, b) => b.price - a.price);
+    }
+    if (sortOption === 'nameAZ') {
+      return [...products].sort((a, b) => a.name.localeCompare(b.name));
+    }
+    if (sortOption === 'nameZA') {
+      return [...products].sort((a, b) => b.name.localeCompare(a.name));
+    }
+    return products; // Default order
+  };
+
+  const filteredProducts = sortProducts(
+    products.filter((product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+
   return (
     <>
       <NavbarComponent />
+      <div className="search-bar-container">
+        <input
+          type="text"
+          className="search-bar"
+          placeholder="Search for products..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <select
+          className="filter-dropdown"
+          value={sortOption}
+          onChange={handleSortChange}
+        >
+          <option value="default">Sort By</option>
+          <option value="priceLowToHigh">Price: Low to High</option>
+          <option value="priceHighToLow">Price: High to Low</option>
+          <option value="nameAZ">Name: A-Z</option>
+          <option value="nameZA">Name: Z-A</option>
+        </select>
+      </div>
       <div className="home-container">
         <div className="product-grid">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
               id={product.id}
               name={product.name}
-              category={product.category}
               price={product.price}
               image={product.image}
               onDelete={handleDeleteProduct} // Pass the delete handler
